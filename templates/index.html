@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Forms Tutorial</title>
+</head>
+<body>
+<h2>Django Forms Tutorial</h2>
+ <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" id="username"/>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" id="email"/>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" id="password"/>
+        </div>
+        <br />
+        <div class="form-group">
+            <button type="button" id="btn_submit" class="btn btn-primary form-control">Submit</button>
+        </div>
+    </form>
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('#btn_submit').on('click', function(){
+        $username = $('#username').val();
+        $email = $('#email').val();
+        $password = $('#password').val();
+
+        if($('#username').val() == "" || $('#email').val() == "" || $('#password').val() == ""){
+            alert("Please fill up the required field");
+        }else{
+            $.ajax({
+                type: "POST",
+                url : "insert",
+                data: {
+                    username: $username,
+                    email: $email,
+                    password: $password,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(){
+                    alert("Saved Data!");
+                    $('#username').val('');
+                    $('#email').val('');
+                    $('#password').val('');
+                }
+            });
+        }
+
+    });
+});
+</script>
+</html>

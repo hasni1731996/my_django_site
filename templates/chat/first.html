@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load staticfiles %}
+    {% load static %}
+    <title>BPL Chat</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function(){
+    $('.user_online').click(function(){
+    <!--#alert($(this).text());-->
+    $("#user_id").html($(this).text());
+    $('#input_field').show();
+    });
+    $('#msg_submit').click(function(){
+        text=$("#msg").val();
+        if(text == ""){
+        alert("Please fill up the required field");
+        }
+        else{
+            $.ajax({
+                type: "POST",
+                url : "post_message",
+                data: {
+                    sender: $("#sender").val(),
+                    reciver: $("#user_id").val(),
+                    message: text,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(){
+                    alert("Saved Data!");
+                    $('#msg').val('');
+
+                }
+            });
+        }
+    });
+});
+</script>
+<style>
+body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1 id="req_name">hello...!!! {{ username }}</h1>
+    <input type="hidden" value="{{ username }}" id="sender" />
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()"><span id="users_">&#9776;</span> Online Users:
+        <div id="myDiv" class="glyphicon glyphicon-user">
+
+        </div>
+        <div id="close" style="display: none;">
+            <a href="#">
+         <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+        </div>
+    </span>
+    <div>
+    {% for obj in chat %}
+    <ul>
+        <li class="user_online">{{ obj }}</li>
+    </ul>
+    {% endfor %}
+    </div>
+    <h1 id="user_id"></h1>
+    <div style="display: none;width: 200px;height: 100px;margin-top: 10px;" id="input_field">
+        <form>
+             {% csrf_token %}
+        <textarea id="msg" placeholder="Type Message Here..." style="width: 500px"></textarea>
+        <button type="submit" class="btn btn-primary" id="msg_submit">Send</button>
+        </form>
+    </div>
+</div>
+
+</body>
+{% comment %} <script src = "{% static 'ajax/js/script2.js' %}"></script> {% endcomment %}
+</html>

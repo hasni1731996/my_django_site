@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+<h2>Login</h2>
+  <form method="post">
+    {% csrf_token %}
+  <a id="logid" href="#">Login with Google</a><br>
+  <p><strong>-- OR --</strong></p>
+  </form>
+{% endblock %}
+</body>
+<script>
+    $(document).ready( function() {
+    $('#logid').click( function() {
+        window.location = "https://accounts.google.com/signin/oauth/oauthchooseaccount?client_id=440710361292-kui3mgcmigiuifr8c1u1upeaj1ojnmhn.apps.googleusercontent.com&as=iaV5JxCZ_Frr-_8yot9Y3Q&destination=http%3A%2F%2F127.0.0.1%3A8000&approval_state=!ChQ2TWRLcElzb05lb2Nxck1BaWttcRIfVTRQRV9uZXNrMm9UMEVBN1JaNXdOM01kYkMxSldoWQ%E2%88%99ANKMe1QAAAAAW4_NG5PSPPhy1TkMdHs5W2kCP_jRpHcz&oauthgdpr=1&xsrfsig=AHgIfE_LxGsOkvxHDWFvFznQWw_U6tvBbQ&flowName=GeneralOAuthFlow";
+    });
+});
+</script>
+</html>
